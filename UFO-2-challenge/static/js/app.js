@@ -62,15 +62,15 @@ function runfilteredData()
 
   
     // Get the value property of the input element
-    var inputdateValue = inputdateElement.property("value").trim();
+    var inputdateValue = inputdateElement.property("value");
     console.log(inputdateValue);
-    var inputcityValue = inputcityElement.property("value").toLowerCase().trim();
+    var inputcityValue = inputcityElement.property("value");
     console.log(inputcityValue);
-    var inputcountryValue = inputcountryElement.property("value").toLowerCase().trim();
+    var inputcountryValue = inputcountryElement.property("value");
     console.log(inputcountryValue)
-    var inputstateValue = inputstateElement.property("value").toLowerCase.trim();
+    var inputstateValue = inputstateElement.property("value");
     console.log(inputstateValue)
-    var inputshapeValue = inputshapeElement.property("value").toLowerCase().trim();
+    var inputshapeValue = inputshapeElement.property("value");
     console.log(inputshapeValue)
  
  
@@ -99,8 +99,8 @@ function runfilteredData()
   if (resultdata.filterALL.length !== 0) {
     populateTable(filterALL);
   }
-  else if (response.filterALL.length === 0 && ((response.filterCity.length !== 0 || response.filterDate.length !== 0))){
-    populate(filterCity) || populate(filterDate);
+  else if (resultdata.filterALL.length === 0 && ((resultdata.filterBYCITY.length !== 0 || resultdata.filterBYDATE.length !== 0))){
+    populate(filterBYCITY) || populate(filterBYDATE);
 
   }
 
@@ -116,7 +116,7 @@ function runfilteredData()
 /////objects filter ****************THIS********************
 
   //check in console for returned value in variable
-  console.log(filteredufoData);
+  console.log(resultdata);
   
   //populate table with filtered UFO data
 

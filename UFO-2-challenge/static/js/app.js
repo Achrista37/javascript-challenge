@@ -4,6 +4,11 @@ var ufoData = data;
 // Select filter by date button 
 var filterButton = d3.select("#filter-btn");
 
+
+
+
+
+
 //Create a variable getting the table body
 var tbody = d3.select("tbody");
 
@@ -23,7 +28,7 @@ function datauponLoading(x)
     }
 
 //event handler for when the filter by date button is being clicked 
-filterButton.on("click", runfilteredData);
+d3.select("#filter-btn").on("click", displayfilteredData);
 /// execute function upon change of value 
 
 var populateTable = (sighting) =>
@@ -31,20 +36,16 @@ var populateTable = (sighting) =>
     var row = tbody.append("tr");
     row.append("td").text(sighting.datetime);
     row.append("td").text(sighting.city);
-    row.append("td").text(sighting.state);
+    row.append("td").text(sighting.State);
     row.append("td").text(sighting.country);
     row.append("td").text(sighting.shape);
 }
 
-function runfilteredData() 
+function displayfilteredData() 
 
 {
  
-
-
-
-
-  var filteredData = ufoData;
+  let filteredData = ufoData;
    // Prevent the page from refreshing
    d3.event.preventDefault();
     tbody.html("");
@@ -63,65 +64,82 @@ function runfilteredData()
   
     // Get the value property of the input element
     var inputdateValue = inputdateElement.property("value");
+    var inputdateKey = inputdateElement.attr("id");
+    console.log(inputdateKey);
     console.log(inputdateValue);
     var inputcityValue = inputcityElement.property("value");
+    var inputcityKey = inputcityElement.attr("id");
     console.log(inputcityValue);
+    console.log(inputcityKey);
     var inputcountryValue = inputcountryElement.property("value");
-    console.log(inputcountryValue)
+    var inputcountryKey = inputcountryElement.attr("id");
+    console.log(inputcountryValue);
+    console.log(inputcountryKey);
     var inputstateValue = inputstateElement.property("value");
-    console.log(inputstateValue)
+    var inputstateKey = inputstateElement.attr("id");
+    console.log(inputstateValue);
+    console.log(inputstateKey);
     var inputshapeValue = inputshapeElement.property("value");
-    console.log(inputshapeValue)
- 
- 
-  //set filter values (date, city, state, country, shape) and apply each filter individually to each category
-  //store each filtered result in different variable 
-  var filterBYDATE = ufoData.filter(data1 => ufoData.datetime === inputdateValue);
-  console.log(filterBYDATE);
-  var filterBYCITY = ufoData.filter(data2 => ufoData.city === inputcityValue);
-  console.log(filterBYCITY);
-  var filterBYSTATE = ufoData.filter(data3 => ufoData.State === inputstateValue);
-  console.log(filterBYSTATE);
-  var filterBYCOUNTRY = ufoData.filter(data4 => ufoData.country === inputcountryValue);
-  console.log(filterBYCOUNTRY);
-  var filterBYSHAPE = ufoData.filter(data5 => ufoData.country === inputcountryValue);
-  console.log(filterBYSHAPE);
-  var filterALL = ufoData.filter
-                        (data6 => ufoData.datetime === inputdateValue
-                        && ufoData.city === inputcityValue
-                        && ufoData.state === inputstateValue
-                        && ufoData.country === inputcountryValue
-                        && ufoData.shape === inputshapeValue      
-                        )
-  console.log(filterALL)
+    var inputshapeKey = inputshapeElement.attr("id");
+    console.log(inputshapeValue);
+    console.log(inputstateKey);
+ /////////////////////////////////////////////
 
-  var resultdata = {filterALL, filterBYDATE, filterBYCITY, filterBYSTATE, filterBYCOUNTRY, filterBYSHAPE}
-  if (resultdata.filterALL.length !== 0) {
-    populateTable(filterALL);
+  var filteredObject = {};
+  filteredObject[inputdateKey] = inputdateValue;
+  filteredObject[inputcityKey] = inputcityValue;
+  filteredObject[inputstateKey] = inputstateValue;
+  filteredObject[inputshapeKey] = inputshapeValue;
+  filteredObject[inputcountryKey] = inputcountryValue;
+
+  if (inputdateValue) {
+    filteredObject[inputdateKey] = inputdateValue;
   }
-  else if (resultdata.filterALL.length === 0 && ((resultdata.filterBYCITY.length !== 0 || resultdata.filterBYDATE.length !== 0))){
-    populate(filterBYCITY) || populate(filterBYDATE);
-
+  else {
+    delete filteredObject[inputdateKey]; 
   }
 
-  /*                      
-  ufoData.filter(childufoData => ufoData.datetime === inputdateValue
-                                                && ufoData.city === inputcityValue
-                                                && ufoData.state === inputstateValue
-                                                && ufoData.country === inputcountryValue
-                                                && ufoData.shape === inputshapeValue      
-    );
-  */
+  if (inputcityValue) {
+    filteredObject[inputcityKey] = inputcityValue;
+  }
+  else {
+    delete filteredObject[inputcityKey]; 
+  }
 
-/////objects filter ****************THIS********************
+  if (inputstateValue) {
+    filteredObject[inputstateKey] = inputstateValue;
+  }
+  else {
+    delete filteredObject[inputstateKey]; 
+  }
 
-  //check in console for returned value in variable
-  console.log(resultdata);
-  
-  //populate table with filtered UFO data
+  if (inputshapeValue) {
+    filteredObject[inputshapeKey] = inputshapeValue;
+  }
+  else {
+    delete filteredObject[inputshapeKey]; 
+  }
 
-  
+ if (inputcountryValue) {
+    filteredObject[inputcountryKey] = inputcountryValue;
+  }
+  else {
+    delete filteredObject[inputcountryKey]; 
+  }
 
+  console.log(filteredObject);
+
+ Object.entries(filteredObject).forEach(([key, value]) => {
+
+
+    filteredData = filteredData.filter(row => row[key] === value);
+    console.log(filteredData);
+
+  });
+
+
+
+  datauponLoading(filteredData);
   }
 
 

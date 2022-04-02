@@ -4,11 +4,6 @@ var ufoData = data;
 // Select filter by date button 
 var filterButton = d3.select("#filter-btn");
 
-
-
-
-
-
 //Create a variable getting the table body
 var tbody = d3.select("tbody");
 
@@ -31,15 +26,7 @@ function datauponLoading(x)
 d3.select("#filter-btn").on("click", displayfilteredData);
 /// execute function upon change of value 
 
-var populateTable = (sighting) =>
-{
-    var row = tbody.append("tr");
-    row.append("td").text(sighting.datetime);
-    row.append("td").text(sighting.city);
-    row.append("td").text(sighting.State);
-    row.append("td").text(sighting.country);
-    row.append("td").text(sighting.shape);
-}
+//function to filter data according to our search criteria 
 
 function displayfilteredData() 
 
@@ -54,13 +41,13 @@ function displayfilteredData()
     // Select the input element and get the raw HTML node
     var inputdateElement = d3.select("#datetime");
     var inputcityElement = d3.select("#city");
-    var inputstateElement = d3.select("#State");
+    var inputstateElement = d3.select("#state");
     var inputcountryElement = d3.select("#country");
     var inputshapeElement = d3.select("#shape");
 
     //check in console
     console.log(inputdateElement);
-
+    console.log(inputcityElement);
   
     // Get the value property of the input element
     var inputdateValue = inputdateElement.property("value");
@@ -83,7 +70,8 @@ function displayfilteredData()
     var inputshapeKey = inputshapeElement.attr("id");
     console.log(inputshapeValue);
     console.log(inputstateKey);
- /////////////////////////////////////////////
+ 
+    //Create JS Object (key-value pair) key = the ID of the elements and the value is the user input
 
   var filteredObject = {};
   filteredObject[inputdateKey] = inputdateValue;
@@ -91,6 +79,8 @@ function displayfilteredData()
   filteredObject[inputstateKey] = inputstateValue;
   filteredObject[inputshapeKey] = inputshapeValue;
   filteredObject[inputcountryKey] = inputcountryValue;
+
+  // utilize if statements to delete fields that do not have any values
 
   if (inputdateValue) {
     filteredObject[inputdateKey] = inputdateValue;
@@ -129,6 +119,8 @@ function displayfilteredData()
 
   console.log(filteredObject);
 
+  // get the above JS object to filter our data
+
  Object.entries(filteredObject).forEach(([key, value]) => {
 
 
@@ -137,10 +129,11 @@ function displayfilteredData()
 
   });
 
-
+// put our filtered data into a table, displaying data that match our search criteria
 
   datauponLoading(filteredData);
   }
 
 
+  // generate a table with all the original data upon loading the page
 datauponLoading(ufoData);

@@ -10,9 +10,23 @@ var filterbydateForm = d3.select("#formdatetime");
 //Create a variable getting the table body
 var tbody = d3.select("tbody");
 
+//create a function to populate the table with unfiltered data upon loading
+function datauponLoading(x) 
+{
+    tbody.html("");    
+    //populate table with filtered UFO data
+    x.forEach((sighting) => {
+        var row = tbody.append("tr");
+        Object.entries(sighting).forEach(([key, value]) => {
+          var cell = row.append("td");
+          cell.text(value);
+        });
+      });
+
+    }
+
 //event handler for the filter by date button
-filterbydateButton.on("click", runFilterdate);
-filterbydateForm.on("submit",runFilterdate);
+d3.select("#filter-btn").on("click", runFilterdate);
 
 function runFilterdate() 
 {
@@ -36,7 +50,7 @@ function runFilterdate()
     
     //set filter value (date)
 
-    var filtereddateData = ufoData.filter(ufoData => ufoData.datetime === inputdateValue);
+    var filtereddateData = ufoData.filter(ufoSightings => ufoSightings.datetime === inputdateValue);
   
     //check in console for returned value in variable
     console.log(filtereddateData);
@@ -52,4 +66,5 @@ function runFilterdate()
 
     }
 
-  
+  // as a default display all data from data.js in a table upon loading the main page
+  datauponLoading(ufoData);
